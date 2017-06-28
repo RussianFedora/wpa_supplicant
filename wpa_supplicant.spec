@@ -7,7 +7,7 @@ Summary: WPA/WPA2/IEEE 802.1X Supplicant
 Name: wpa_supplicant
 Epoch: 1
 Version: 2.6
-Release: 7%{?dist}
+Release: 7%{?dist}.R
 License: BSD
 Group: System Environment/Base
 Source0: http://w1.fi/releases/%{name}-%{version}%{rcver}%{snapshot}.tar.gz
@@ -77,6 +77,10 @@ Patch46: macsec-0038-mka-Fix-use-after-free-when-transmit-secure-channels.patch
 Patch47: macsec-0039-macsec_linux-Fix-NULL-pointer-dereference-on-error-c.patch
 # upstream patch not in 2.6
 Patch48: rh1451834-nl80211-Fix-race-condition-in-detecting-MAC-change.patch
+
+# ArchLinux Patch
+# https://bugs.archlinux.org/task/54233
+Patch100: fix-pem-decryption.patch
 
 URL: http://w1.fi/wpa_supplicant/
 
@@ -167,6 +171,8 @@ Graphical User Interface for wpa_supplicant written using QT
 %patch46 -p1 -b .macsec-0038
 %patch47 -p1 -b .macsec-0039
 %patch48 -p1 -b .rh1447073-detect-mac-change
+
+%patch100 -p1 -b .fix-pem-decryption
 
 %build
 pushd wpa_supplicant
@@ -267,6 +273,9 @@ chmod -R 0644 %{name}/examples/*.py
 %endif
 
 %changelog
+* Wed Jun 28 2017 Arkady L. Shane <ashejn@russiandedora.pro> - 1:26-7.R
+- fix pem decryption (https://bugs.archlinux.org/task/54233)
+
 * Wed May 17 2017 Beniamino Galvani <bgalvani@redhat.com> - 1:2.6-7
 - nl80211: Fix race condition in detecting MAC change (rh #1451834)
 
